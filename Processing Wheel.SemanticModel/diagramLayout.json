@@ -1,0 +1,152 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1302.0989631572072,
+            "y": 351.31844984962527
+          },
+          "nodeIndex": "Measure",
+          "nodeLineageTag": "03dab56e-40e2-464c-b7a3-c7f949059ed3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1068.0989631572072,
+            "y": 800.63689969925053
+          },
+          "nodeIndex": "dCalendar",
+          "nodeLineageTag": "38fb3a8c-75c5-4a49-ae12-c4adfe8790b7",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 604.4110644464115
+          },
+          "nodeIndex": "DetailedProjects",
+          "nodeLineageTag": "d68df17a-b4f0-4db5-a6ff-2e79beca0835",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 624.11067414312242,
+            "y": 146.43993096761255
+          },
+          "nodeIndex": "HistoryOverview",
+          "nodeLineageTag": "72e67ccd-f880-41dd-be9c-e8352f8aee7a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 298.00400616704928,
+            "y": 129.54048122793927
+          },
+          "nodeIndex": "IL Sort",
+          "nodeLineageTag": "28162844-502f-4041-86b3-1c3c1a71dafa",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 506.00625580623978,
+            "y": -50
+          },
+          "nodeIndex": "Month Sort",
+          "nodeLineageTag": "c1b2d338-ed8e-49e8-96e4-6242e1e147db",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 793.07478159777338,
+            "y": -34.437993065530009
+          },
+          "nodeIndex": "Strategic Intiative",
+          "nodeLineageTag": "2129e2ce-6c98-43a3-9890-7e8d2034cb4a",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 911.21235740353484,
+            "y": 197.35741792524323
+          },
+          "nodeIndex": "Target-Plant",
+          "nodeLineageTag": "8739bd08-4014-42b8-a939-731a475b69b3",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 337.04072968711841,
+            "y": 450.97642460088628
+          },
+          "nodeIndex": "tblProjectID",
+          "nodeLineageTag": "c13e02dc-ad8c-4de2-bfd3-01f541bbabdc",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 874.13903090711892,
+            "y": 499.93828279205411
+          },
+          "nodeIndex": "Weekly Calendar",
+          "nodeLineageTag": "134972d3-7ddc-44ac-b759-f54db63083bb",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

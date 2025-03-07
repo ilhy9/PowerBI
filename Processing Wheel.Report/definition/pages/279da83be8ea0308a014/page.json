@@ -1,0 +1,151 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.3.0/schema.json",
+  "name": "279da83be8ea0308a014",
+  "displayName": "SAT",
+  "displayOption": "FitToPage",
+  "height": 1000,
+  "width": 1360,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "42505dd0a1db75358513",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "HistoryOverview"
+              }
+            },
+            "Property": "History_Overview.ELT Level 5"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      },
+      {
+        "name": "22114b87a53d1da05d4c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "HistoryOverview"
+              }
+            },
+            "Property": "History_Overview.Year"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "26de5aeac4288f5b01d3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "PlaceHolder"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "e09ed0c238b67dd634e5",
+    "type": "Default",
+    "parameters": [
+      {
+        "name": "150dfde282457914830a",
+        "boundFilter": "42505dd0a1db75358513",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "HistoryOverview"
+              }
+            },
+            "Property": "History_Overview.ELT Level 5"
+          }
+        }
+      },
+      {
+        "name": "d147e3ca3a651c60fda4",
+        "boundFilter": "26de5aeac4288f5b01d3",
+        "fieldExpr": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "PlaceHolder"
+          }
+        }
+      }
+    ]
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Frame 3.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Frame_36321573699655474.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fit'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          },
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F0F3F7'"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "63a9b4f0c810cb244572",
+      "target": "c254e41462eccd253e99",
+      "type": "NoFilter"
+    }
+  ]
+}

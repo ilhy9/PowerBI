@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "e7b63fd80cd4b08578c7",
+  "position": {
+    "x": 172.22222222222223,
+    "y": 161.11111111111111,
+    "z": 17000,
+    "height": 43.333333333333336,
+    "width": 392.22222222222223,
+    "tabOrder": 17000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "In Year Net Saving (M DKK)",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontFamily": "Candara",
+                      "fontSize": "20pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -12,7 +12,7 @@ annotation PBIDesktopVersion = 2.140.1205.0 (25.02)+2ab3defe107764e1cf486b42122d
 
 annotation PBI_QueryOrder = ["Target-Plant","DetailedProjects","HistoryOverview","Weekly Calendar","IL Sort","Month Sort","Strategic Intiative"]
 
-annotation PBI_ProTooling = ["DaxQueryView_Desktop"]
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
 
 annotation __TEdtr = 1
 

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "5f5728560428527beeea",
+  "position": {
+    "x": 181.95328401124286,
+    "y": 43.4206700481375,
+    "z": 5000,
+    "height": 149.90469421380803,
+    "width": 1139.275676024941,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Total Initiatives"
+                }
+              },
+              "queryRef": "Measure.Total Initiatives",
+              "nativeQueryRef": "Total Initiatives"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Projects Due This Month"
+                }
+              },
+              "queryRef": "Measure.Projects This Month",
+              "nativeQueryRef": "Projects Due This Month"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Project Due Next Month"
+                }
+              },
+              "queryRef": "Measure.Project Due Next Month",
+              "nativeQueryRef": "Project Due Next Month"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Measure"
+                  }
+                },
+                "Property": "Total Initiatives"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

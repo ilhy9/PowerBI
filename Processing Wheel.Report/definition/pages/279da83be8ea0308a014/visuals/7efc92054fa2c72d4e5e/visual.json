@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.5.0/schema.json",
+  "name": "7efc92054fa2c72d4e5e",
+  "position": {
+    "x": 0,
+    "y": 306.01234129163572,
+    "z": 8000,
+    "height": 117.85610441637321,
+    "width": 149.90469421380803,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HistoryOverview"
+                    }
+                  },
+                  "Property": "History_Overview.ELT Level 5"
+                }
+              },
+              "queryRef": "HistoryOverview.History_Overview.ELT Level 5",
+              "nativeQueryRef": "Site",
+              "active": true,
+              "displayName": "Site"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Basic'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "header": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
