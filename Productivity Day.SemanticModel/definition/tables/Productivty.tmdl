@@ -1,0 +1,238 @@
+table Productivty
+	lineageTag: 6f4fecd7-6112-4821-b69c-4df0e925a1a3
+
+	measure ActualSavings = SUM('Productivty'[Actual])
+		formatString: #,0.0
+		lineageTag: 9177a68a-4bca-4c07-b93f-f6a21bec550e
+
+	measure FistLabel = CALCULATE(MAX(Productivty[Deparment]), KEEPFILTERS('Productivty'[Year]= "2023"))
+		lineageTag: 9dd0214e-08e1-4c48-92b6-95ad190a83a0
+
+	measure JIA_Actual = CALCULATE([ActualSavings],Productivty[Site]="JIA")
+		formatString: 0.0
+		lineageTag: baba3cce-bd7b-4be1-83e8-447f87217cd2
+
+	measure 'Title_ActualSavingsBySite Department' = ```
+			
+			    var currYear = SELECTEDVALUE('Productivty'[Year],"All")
+			    var Title = "Productivity Overview by Site & Technology - " & currYear
+			    RETURN
+			        Title
+			```
+		lineageTag: 2e18fd45-62d2-4e6d-bc5e-3e77f793fb10
+
+	measure JIA_Target = CALCULATE( SUM('Productivty'[Target]), 'Productivty'[Site]="JIA")
+		formatString: 0.0
+		lineageTag: 7b8ffb63-591b-4b1f-adea-2e591136f7a4
+
+	measure Bar = MIN([JIA_Actual],[JIA_Target])
+		formatString: 0.0
+		lineageTag: 715b7d70-d454-4dfb-8bad-a1b36a0aea5c
+
+	measure BarUnMet = ```
+			
+			var VActual = [JIA_Actual]
+			var VTarget = [JIA_Target]
+			RETURN
+			    IF(
+			        VTarget > VActual,
+			        [MarkerValue]-[Bar]
+			    )
+			
+			```
+		lineageTag: 67e61728-b122-4baf-8f91-a3967367a142
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MarkerValue = MAX([JIA_Actual],[JIA_Target])
+		lineageTag: f149b3ec-4348-4c32-9338-5a1314e8e038
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure BarMet = ```
+			
+			var VActual = [JIA_Actual]
+			var VTarget = [JIA_Target]
+			RETURN
+			    IF(
+			        VTarget <= VActual,
+			        [MarkerValue]-[Bar]
+			    )
+			
+			```
+		lineageTag: d6f563a3-8242-4984-bd17-5bef55994bce
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Title TvA' = ```
+			
+			var curYear = SELECTEDVALUE('Productivty'[Year],"All Year")
+			var curDept = SELECTEDVALUE('Productivty'[Deparment],"JIA")
+			var res = 
+			    "JIA Target vs Actual: " & curYear & " - " & curDept
+			
+			RETURN
+			    res
+			```
+		lineageTag: 5bf76949-3919-4967-9c36-4471b9d9741e
+
+	measure CF_FontColor = IF([JIA_Target]>[JIA_Actual], "#e4484e","White")
+		lineageTag: 41cf23bc-9efa-47fa-98f7-a983943abc3d
+
+	measure JIA_Actual_NoLFAC = ```
+			
+			 VAR lfac = CALCULATE( SUM('Productivty'[Actual])     ,'Productivty'[Deparment]="LFAC")
+			var x = [JIA_Actual]-lfac
+			
+			RETURN
+			    x
+			```
+		lineageTag: 0bd391c1-f00e-429e-8069-8c7eebd1e0e7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Ini = ```
+			
+			 var x = CALCULATE(SUM(Productivty[Number of intiatives]),Productivty[Year]="2025")
+			 
+			 RETURN
+			    "2025- Number of Initiatives - "  & SELECTEDVALUE('2025 Identify'[Dept],"All")& " "& x 
+			```
+		lineageTag: f7fa3ca1-b95f-49b7-b251-3d7422ce2484
+
+	measure JIAPastResult = ```
+			
+			var curYear = SELECTEDVALUE('Productivty'[Year])
+			var res = 
+			    SWITCH(
+			        TRUE(),
+			        curYear="2023", "25.4",
+			        curYear="2024", "28.1",
+			        curYear="2025", "24.0",
+			        "77.5"
+			    )
+			RETURN
+			    res
+			```
+		lineageTag: 64487d0d-3ec0-4654-bced-941b8e8e9b16
+
+	measure KLDTotal = CALCULATE( SUM('Productivty'[Result]),Productivty[Site]="KLD")
+		formatString: 0.0
+		lineageTag: 366db9f7-fee6-484f-82ad-9c7d312ab95b
+
+	measure KOMTotal = CALCULATE( SUM('Productivty'[Result]),Productivty[Site]="KOM")
+		formatString: 0.0
+		lineageTag: 3b922af3-0a56-4e24-a58c-4c26fdbcc902
+
+	measure LOMTotal = CALCULATE( SUM('Productivty'[Result]),Productivty[Site]="LOM")
+		formatString: 0.0
+		lineageTag: b1d1f999-ddf1-465f-9893-f0898427acce
+
+	measure NYITotal = CALCULATE( SUM('Productivty'[Result]),Productivty[Site]="NYI")
+		formatString: 0.0
+		lineageTag: 282838e3-916e-4787-ab76-c8984ab55c5b
+
+	measure MaximunY =
+			
+			VAR a = MAXX(ALLSELECTED('Productivty'),[JIA_Target])
+			var b = MAXX(ALLSELECTED('Productivty'),[JIA_Actual])
+			RETURN
+			    b
+		lineageTag: 63c507fc-ce68-4168-820c-8a627e94bd0f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Year
+		dataType: string
+		lineageTag: e8c0e820-15ec-42de-a6a4-4f39d53dd00c
+		summarizeBy: none
+		sourceColumn: Year
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of intiatives'
+		dataType: int64
+		formatString: 0
+		lineageTag: b8693a93-4ccc-4174-a720-4ad0452f1d27
+		summarizeBy: sum
+		sourceColumn: Number of intiatives
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column Actual
+		dataType: double
+		formatString: 0.0
+		lineageTag: 16edd22e-64b5-43c3-91ee-14ba7cb8380b
+		summarizeBy: sum
+		sourceColumn: Actual
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: double
+		formatString: 0.0
+		lineageTag: a1aa6d8d-4ada-4534-aefb-b0b8df74218d
+		summarizeBy: sum
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+	column Site
+		dataType: string
+		lineageTag: e18e29aa-d771-491b-991b-a79b1802cc88
+		summarizeBy: none
+		sourceColumn: Site
+
+		annotation SummarizationSetBy = Automatic
+
+	column Deparment
+		dataType: string
+		lineageTag: 9b928474-4650-469c-9461-96bbb7420109
+		summarizeBy: none
+		sourceColumn: Deparment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Result =
+			IF(
+			            [Site] ="JIA",
+			                IF('Productivty'[Year]="2025", [Target],[Actual])
+			                ,
+			                [Target]
+			)
+		lineageTag: f1210837-7f77-473c-9b88-07acaa25de87
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Res
+		dataType: string
+		lineageTag: eb5cec15-6d0f-4ee1-a538-0e768e8b6276
+		summarizeBy: none
+		sourceColumn: Res
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Productivty = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\cn8IsaLi\OneDrive - LEGO\Desktop\ProducitivityDay.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(Sheet1_Sheet, each ([Column1] <> null)),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Removed Other Columns", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Year", Int64.Type}, {"Number of intiatives", Int64.Type}, {"Actual", type number}, {"Target", type number}, {"Site", type text}, {"Deparment", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

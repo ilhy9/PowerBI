@@ -1,0 +1,74 @@
+table 'Processing 3'
+	lineageTag: 4e7ce35f-cafe-42cb-a5ba-11019721be1d
+
+	column Dep
+		dataType: string
+		lineageTag: ef435ca5-c35d-459a-932b-0a9274ae56c4
+		summarizeBy: none
+		sourceColumn: Dep
+
+		annotation SummarizationSetBy = Automatic
+
+	column Area
+		dataType: string
+		lineageTag: 7cf90d31-ddb0-4f1f-9bcd-777a6f5c912a
+		summarizeBy: none
+		sourceColumn: Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vakue Type'
+		dataType: string
+		lineageTag: cff84671-910c-4242-9475-14ea5a495883
+		summarizeBy: none
+		sourceColumn: Vakue Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Total
+		dataType: double
+		lineageTag: ed632ae2-1ee2-4c46-8b0e-19ef3004d6e4
+		summarizeBy: sum
+		sourceColumn: Total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Month
+		dataType: string
+		lineageTag: c8615513-1637-4ec3-9356-b4d513597fbe
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Saving
+		dataType: double
+		lineageTag: 9c028c4c-1325-4461-9a6c-8ffd8f427097
+		summarizeBy: sum
+		sourceColumn: Saving
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Processing 3' = m
+		mode: import
+		source =
+				let
+				    源 = Excel.Workbook(Web.Contents("https://legogroup.sharepoint.com/sites/Productivity2020/Shared%20Documents/General/Overall%20Productivity%20tracker/JIA%20Productivity%20tracker-Currently%20year.xlsx"), null, true),
+				    #"Processing 3_Sheet" = 源{[Item="Processing 3",Kind="Sheet"]}[Data],
+				    提升的标题 = Table.PromoteHeaders(#"Processing 3_Sheet", [PromoteAllScalars=true]),
+				    更改的类型 = Table.TransformColumnTypes(提升的标题,{{"Column1", Int64.Type}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Jan", type number}, {"Feb", type number}, {"Mar", type number}, {"Apr", type number}, {"May", type number}, {"Jun", type number}, {"Jul", type number}, {"Aug", type number}, {"Sep", type number}, {"Oct", type number}, {"Nov", type number}, {"Dec", type number}, {"Column17", type number}}),
+				    逆透视的其他列 = Table.UnpivotOtherColumns(更改的类型, {"Column1", "Column2", "Column3", "Column4", "Column17"}, "属性", "值"),
+				    重命名的列 = Table.RenameColumns(逆透视的其他列,{{"属性", "月份"}, {"值", "Saving"}}),
+				    删除的列 = Table.RemoveColumns(重命名的列,{"Column1"}),
+				    重命名的列1 = Table.RenameColumns(删除的列,{{"Column2", "Dep"}, {"Column3", "Area"}, {"Column4", "Vakue Type"}, {"Column17", "Total"}, {"月份", "Month"}})
+				in
+				    重命名的列1
+
+	annotation PBI_NavigationStepName = 导航
+
+	annotation PBI_ResultType = Table
+

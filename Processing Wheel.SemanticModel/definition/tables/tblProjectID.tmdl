@@ -1,0 +1,17 @@
+table tblProjectID
+	lineageTag: c13e02dc-ad8c-4de2-bfd3-01f541bbabdc
+
+	column 'History_Overview.ID_General'
+		lineageTag: 6ff05673-5285-47c6-9027-6731b14256f4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: HistoryOverview[History_Overview.ID_General]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tblProjectID = calculated
+		mode: import
+		source = INTERSECT(VALUES('HistoryOverview'[History_Overview.ID_General]),VALUES('DetailedProjects'[ID Tracker]))
+
+	annotation PBI_Id = 047dcdc2c22346f0bfa40eabe8601367
+

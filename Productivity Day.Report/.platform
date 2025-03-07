@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Productivity Day"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "147880f9-79f4-abf1-4b81-97b39a6c1e86"
+  }
+}

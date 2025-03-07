@@ -1,0 +1,37 @@
+table dCalendar
+	lineageTag: 38fb3a8c-75c5-4a49-ae12-c4adfe8790b7
+	dataCategory: Time
+
+	column Date
+		isHidden
+		isKey
+		formatString: m/d/yyyy
+		lineageTag: aa1c7a6f-c9c0-4b5d-8839-2843206f06eb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Month = FORMAT('dCalendar'[Date],"MMM")
+		lineageTag: 06068d53-9b5e-4819-97c8-a741b0afac72
+		summarizeBy: none
+		sortByColumn: MonthNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNum = MONTH('dCalendar'[Date])
+		formatString: 0
+		lineageTag: b44816bf-92a2-4c6d-b14c-839edac146f2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dCalendar = calculated
+		mode: import
+		source = CALENDARAUTO()
+
+	annotation PBI_Id = 310d6c22442e4274b3ea630cb011bc90
+

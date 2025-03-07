@@ -1,0 +1,83 @@
+table 'Processing 2'
+	lineageTag: d1098d11-765e-4296-ab5b-2dace8608305
+
+	column Target
+		dataType: double
+		formatString: 0.0
+		lineageTag: 5f69dee0-e108-4780-a752-b3b038c52844
+		summarizeBy: sum
+		sourceColumn: Target
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Year Benefit'
+		dataType: double
+		lineageTag: 32439f0f-c6ae-44e3-9c4b-97ea4235f710
+		summarizeBy: sum
+		sourceColumn: In Year Benefit
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'YTD Target'
+		dataType: double
+		formatString: #,0.0000
+		lineageTag: 3e60f299-e0b9-4691-bd9e-a6d32b7fa0cc
+		summarizeBy: sum
+		sourceColumn: YTD Target
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'YTD Actual'
+		dataType: double
+		lineageTag: 95a1098a-6c1d-433c-b610-6d865881a37f
+		summarizeBy: sum
+		sourceColumn: YTD Actual
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Area
+		dataType: string
+		lineageTag: ff4cdca9-5175-4d12-a568-9680afd20289
+		summarizeBy: none
+		sourceColumn: Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Target Identified'
+		dataType: double
+		lineageTag: a4fef647-0733-473b-950e-ceaed13f036d
+		summarizeBy: sum
+		sourceColumn: Target Identified
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Processing 2' = m
+		mode: import
+		source =
+				let
+				    源 = Excel.Workbook(Web.Contents("https://legogroup.sharepoint.com/sites/Productivity2020/Shared%20Documents/General/Overall%20Productivity%20tracker/JIA%20Productivity%20tracker-Currently%20year.xlsx"), null, true),
+				    #"Processing 2_Sheet" = 源{[Item="Processing 2",Kind="Sheet"]}[Data],
+				    提升的标题 = Table.PromoteHeaders(#"Processing 2_Sheet", [PromoteAllScalars=true])
+				in
+				    提升的标题
+
+	annotation PBI_NavigationStepName = 导航
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Processing Wheel"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9a5faca3-596c-8bb2-41fc-425125cdf683"
+  }
+}

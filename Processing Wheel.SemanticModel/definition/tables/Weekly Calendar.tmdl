@@ -1,0 +1,98 @@
+table 'Weekly Calendar'
+	lineageTag: 134972d3-7ddc-44ac-b759-f54db63083bb
+
+	column Date
+		dataType: dateTime
+		formatString: YYYY-MMM
+		lineageTag: d71c692a-61ba-44e7-bdf2-382d75ef10ca
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column Id_n
+		dataType: string
+		lineageTag: ab992f01-5512-4bbe-868f-e017d10f4d06
+		summarizeBy: none
+		sourceColumn: Id_n
+		sortByColumn: Date
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Monthly review'
+		dataType: string
+		lineageTag: 822e594f-a402-4b66-8ac1-08fd7c050f08
+		summarizeBy: none
+		sourceColumn: Monthly review
+
+		annotation SummarizationSetBy = Automatic
+
+	column Report
+		dataType: int64
+		formatString: 0
+		lineageTag: 53f36657-99e3-4522-81ee-479643ba5c5b
+		summarizeBy: none
+		sourceColumn: Report
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		dataType: int64
+		formatString: 0
+		lineageTag: 3a58ea9d-21cd-40a1-bbd4-a0f0a974e0f3
+		summarizeBy: sum
+		sourceColumn: Week
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 4139ee5b-2244-45d8-b000-30a88ed08f0b
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month = FORMAT('Weekly Calendar'[Date],"MMM")
+		lineageTag: 9a875c05-6cb1-45f1-9d98-f691a7fd3476
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Weekly Calendar' = m
+		mode: import
+		source =
+				let
+				    Source = AnalysisServices.Databases("powerbi://api.powerbi.com/v1.0/myorg/Partner%20for%20Productivity", [TypedMeasureColumns=true, Implementation="2.0"]),
+				    #"PRO Report - PfP v2" = Source{[Name="PRO Report - PfP v2"]}[Data],
+				    Model1 = #"PRO Report - PfP v2"{[Id="Model"]}[Data],
+				    Model2 = Model1{[Id="Model"]}[Data],
+				    #"Added Items" = Cube.Transform(Model2,
+				        {
+				            {Cube.AddAndExpandDimensionColumn, "[PfP_Calendar]", {"[PfP_Calendar].[Date].[Date]", "[PfP_Calendar].[Id_n].[Id_n]", "[PfP_Calendar].[Monthly review].[Monthly review]", "[PfP_Calendar].[Report].[Report]", "[PfP_Calendar].[Slicer Date].[Slicer Date]", "[PfP_Calendar].[Slicer Date_Monthly].[Slicer Date_Monthly]", "[PfP_Calendar].[Week].[Week]", "[PfP_Calendar].[Year].[Year]", "[PfP_Calendar].[Year End Results].[Year End Results]", "[PfP_Calendar].[Year Hierarchy].[Year]", "[PfP_Calendar].[Year Hierarchy].[Slicer Date]"}, {"PfP_Calendar.Date", "PfP_Calendar.Id_n", "PfP_Calendar.Monthly review", "PfP_Calendar.Report", "PfP_Calendar.Slicer Date", "PfP_Calendar.Slicer Date_Monthly", "PfP_Calendar.Week", "PfP_Calendar.Year", "PfP_Calendar.Year End Results", "PfP_Calendar.Year.1", "PfP_Calendar.Slicer Date.1"}}
+				        }),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Items",{"PfP_Calendar.Year End Results", "PfP_Calendar.Year.1", "PfP_Calendar.Slicer Date.1", "PfP_Calendar.Slicer Date", "PfP_Calendar.Slicer Date_Monthly"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Columns",{{"PfP_Calendar.Date", type date}, {"PfP_Calendar.Id_n", type text}, {"PfP_Calendar.Report", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each [PfP_Calendar.Id_n] <> null and [PfP_Calendar.Id_n] <> ""),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows",{{"PfP_Calendar.Date", "Date"}, {"PfP_Calendar.Id_n", "Id_n"}, {"PfP_Calendar.Monthly review", "Monthly review"}, {"PfP_Calendar.Report", "Report"}, {"PfP_Calendar.Week", "Week"}, {"PfP_Calendar.Year", "Year"}}),
+				    #"Sorted Rows" = Table.Sort(#"Renamed Columns",{{"Date", Order.Descending}})
+				in
+				    #"Sorted Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

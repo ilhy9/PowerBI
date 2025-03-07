@@ -1,0 +1,127 @@
+table 'Processing 1'
+	lineageTag: 40f1c597-7779-4656-ad76-f6db36253d97
+
+	measure Target = CALCULATE(SUM('Processing 1'[Saving]),'Processing 1'[Value Type]="Target")
+		lineageTag: 850da90f-273c-4477-bec3-aefe6ac9e286
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Actual = CALCULATE(sum([Saving]),'Processing 1'[Value Type]="Actual")
+		lineageTag: 85c4cf50-f1f3-4889-90fd-ef56ef236f8d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Percentage = DIVIDE([Actual],[Target])
+		lineageTag: ffc67b80-6798-4a09-9b81-ea1bf1730464
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Area
+		dataType: string
+		lineageTag: c3bc6c56-9886-46d1-9443-365206edeae5
+		summarizeBy: none
+		sourceColumn: Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dept.'
+		dataType: string
+		lineageTag: ff5e350c-b1cd-4bac-b8b2-b9529849629e
+		summarizeBy: none
+		sourceColumn: Dept.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Project name'
+		dataType: string
+		lineageTag: 763d7406-936f-4d21-b31c-1ed7c6c65810
+		summarizeBy: none
+		sourceColumn: Project name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Project leader'
+		dataType: string
+		lineageTag: 95876037-8996-472f-b43f-1a652095f9b8
+		summarizeBy: none
+		sourceColumn: Project leader
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Value Type'
+		dataType: string
+		lineageTag: f40f6c5f-79ac-4fd0-8da6-b85d2c79ed7c
+		summarizeBy: none
+		sourceColumn: Value Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'YTD Saving(m DKK)'
+		dataType: double
+		lineageTag: 4a80cc9b-8e29-4c8c-949d-fe52e43646b0
+		summarizeBy: sum
+		sourceColumn: YTD Saving(m DKK)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Total Target(m DKK)'
+		dataType: double
+		lineageTag: 97d609cc-ff2b-4f94-9ca3-a4a24f3d9aa2
+		summarizeBy: sum
+		sourceColumn: Total Target(m DKK)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IL
+		dataType: string
+		lineageTag: 6e375c9c-2d88-4476-a8df-ae207b7bbb8e
+		summarizeBy: none
+		sourceColumn: IL
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		lineageTag: c2e42dfb-7f7b-4fee-918b-7570e9bdb32c
+		summarizeBy: sum
+		sourceColumn: Month
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Saving
+		dataType: double
+		lineageTag: 1dac3997-6f1e-4e53-9518-06a8486552ca
+		summarizeBy: sum
+		sourceColumn: Saving
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Processing 1' = m
+		mode: import
+		source =
+				let
+				    源 = Excel.Workbook(Web.Contents("https://legogroup.sharepoint.com/sites/Productivity2020/Shared%20Documents/General/Overall%20Productivity%20tracker/JIA%20Productivity%20tracker-Currently%20year.xlsx"), null, true),
+				    #"Processing 1_Sheet" = 源{[Item="Processing 1",Kind="Sheet"]}[Data],
+				    更改的类型 = Table.TransformColumnTypes(#"Processing 1_Sheet",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}, {"Column8", type number}, {"Column9", type number}, {"Column10", type number}, {"Column11", type number}, {"Column12", type number}, {"Column13", type number}, {"Column14", type number}, {"Column15", type number}, {"Column16", type number}, {"Column17", type number}, {"Column18", type number}, {"Column19", type number}, {"Column20", type any}, {"Column21", type any}, {"Column22", type any}, {"Column23", type any}, {"Column24", type text}, {"Column25", type text}, {"Column26", type text}, {"Column27", type text}, {"Column28", type text}, {"Column29", type number}}),
+				    提升的标题 = Table.PromoteHeaders(更改的类型, [PromoteAllScalars=true]),
+				    更改的类型1 = Table.TransformColumnTypes(提升的标题,{{"Area", type text}, {"Dept.", type text}, {"Project name", type text}, {"Project leader", type text}, {"Cost bucket", type text}, {"Category", type text}, {"Value Type", type text}, {"1", type number}, {"2", type number}, {"3", type number}, {"4", type number}, {"5", type number}, {"6", type number}, {"7", type number}, {"8", type number}, {"9", type number}, {"10", type number}, {"11", type number}, {"12", type number}, {"YTD Saving#(lf)(m DKK)", type number}, {"Total Target#(lf)(m DKK)", type number}, {"NO", Int64.Type}, {"IL", type any}, {"Carry over average saving/month to 2025", type text}, {"Carry over months in 2025", type text}, {"ID_General", type text}, {"Comments", type text}, {"Start Month", type text}, {"Column29", type number}}),
+				    删除的列 = Table.RemoveColumns(更改的类型1,{"Carry over average saving/month to 2025", "Carry over months in 2025", "ID_General", "Comments", "Start Month", "Column29", "Cost bucket", "Category", "NO"}),
+				    逆透视的列 = Table.UnpivotOtherColumns(删除的列, {"Area", "Dept.", "Project name", "Project leader", "Value Type", "YTD Saving#(lf)(m DKK)", "Total Target#(lf)(m DKK)", "IL"}, "属性", "值"),
+				    重命名的列 = Table.RenameColumns(逆透视的列,{{"属性", "Month"}, {"值", "Saving"}})
+				in
+				    重命名的列
+
+	annotation PBI_NavigationStepName = 导航
+
+	annotation PBI_ResultType = Table
+

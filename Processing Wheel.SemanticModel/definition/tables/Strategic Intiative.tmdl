@@ -1,0 +1,35 @@
+table 'Strategic Intiative'
+	lineageTag: 2129e2ce-6c98-43a3-9890-7e8d2034cb4a
+
+	column 'Strategic Intiative'
+		dataType: string
+		lineageTag: 8dd90597-1398-4468-881d-cad157a30674
+		summarizeBy: none
+		sourceColumn: Strategic Intiative
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: b062303f-0da8-477d-8381-7a542fa1a6c6
+		summarizeBy: none
+		sourceColumn: Type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Strategic Intiative' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcowpNTAwMnNR0kEwY3Wilfz0HPWAYn75eQoI8VgA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Strategic Intiative" = _t, Type = _t])
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

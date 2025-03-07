@@ -1,0 +1,44 @@
+table 'Month Sort'
+	isHidden
+	lineageTag: c1b2d338-ed8e-49e8-96e4-6242e1e147db
+
+	column Num
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fb8202ef-d102-4241-a0d3-eff033d93f94
+		summarizeBy: none
+		sourceColumn: Num
+
+		changedProperty = IsHidden
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		isHidden
+		lineageTag: 06cdc6c1-ca61-46dd-89fe-30c08eb353a7
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: Num
+
+		changedProperty = IsHidden
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Month Sort' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUfJKzFOK1YlWMgKy3VKTwGxjINs3sQjMNgGyHQsgbFOweCWYbQbSWwrRaw5m54DZFiD1pelgtiWQHZxaAGYbGgA5/sklEA7IZr/8MggHZLVLarJSbCwA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Num = _t, Month = _t])
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

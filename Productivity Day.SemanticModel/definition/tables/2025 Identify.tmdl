@@ -1,0 +1,100 @@
+table '2025 Identify'
+	lineageTag: 1712c437-fb88-4da2-98de-d1d210bb0434
+
+	measure Identify2025 = ```
+			
+			var curDept = SELECTEDVALUE('2025 Identify'[Dept],"JIA")
+			var pre = "2025 Productivity Identified- " 
+			RETURN
+			    pre & curDept & " MDKK"
+			```
+		lineageTag: 80e561d2-664f-4d8b-805c-a70af2f98b4f
+
+	measure lblValue = ```
+			
+			var  a = FORMAT( SUM('2025 Identify'[Identify]),"#.0") & " / " 
+			var b  =  IF(
+			                HASONEVALUE(
+			                    '2025 Identify'[Dept]),
+			                    SUM('2025 Identify'[Target]),
+			                    24.0
+			)
+			var c = FORMAT(b,"#.0")                    
+			RETURN
+			    a & c
+			```
+		lineageTag: d3f8077d-f368-467b-9843-9528568d45c5
+
+	column Dept
+		dataType: string
+		lineageTag: 0fd2840b-c972-4a45-833c-0a22b182dba9
+		summarizeBy: none
+		sourceColumn: Dept
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: double
+		lineageTag: 7b8e8772-4cd8-4c71-aabc-17413912a991
+		summarizeBy: none
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Identify
+		dataType: double
+		lineageTag: f7bc300a-871f-4e20-a8f7-3ab1c51a5146
+		summarizeBy: none
+		sourceColumn: Identify
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'IL 0-2'
+		dataType: double
+		lineageTag: 48f6763e-fa23-4c42-8296-2e9e84e60262
+		summarizeBy: none
+		sourceColumn: IL 0-2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'IL 3-5'
+		dataType: double
+		lineageTag: e32ee1c5-364f-49b1-a532-b681fe1818f1
+		summarizeBy: none
+		sourceColumn: IL 3-5
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GAP = [Target]-[Identify]
+		lineageTag: 78c8348b-bffe-4a30-9c9c-4eff1f403087
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition '2025 Identify' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\cn8IsaLi\OneDrive - LEGO\Desktop\ProducitivityDay.xlsx"), null, true),
+				    Sheet2_Sheet = Source{[Item="Sheet2",Kind="Sheet"]}[Data],
+				    #"Filtered Rows1" = Table.SelectRows(Sheet2_Sheet, each ([Column1] <> null)),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Filtered Rows1", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Target", type number}, {"Identify", type number}, {"IL 0-2", type number}, {"IL 3-5", type number}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"Dept", "Target", "Identify", "IL 0-2", "IL 3-5"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

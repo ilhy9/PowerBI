@@ -1,0 +1,38 @@
+table Target-Plant
+	lineageTag: 8739bd08-4014-42b8-a939-731a475b69b3
+
+	column Plant
+		dataType: string
+		lineageTag: b7c193bd-fe89-47a7-be4c-4d6f5ccdd55e
+		summarizeBy: none
+		sourceColumn: Plant
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: int64
+		formatString: 0
+		lineageTag: 361e5ffd-17f9-4c4d-97a9-ace9e98d8a59
+		summarizeBy: none
+		sourceColumn: Target
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Target-Plant = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WCijKT04tLs7MS1fw8nRU0lEyVorVQRH29gEJW6AL+/j7AoXN0IX9Ij2BwqZKsbEA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Plant = _t, Target = _t])
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,51 @@
+table 'IL Sort'
+	isHidden
+	lineageTag: 28162844-502f-4041-86b3-1c3c1a71dafa
+
+	column IL
+		dataType: string
+		isHidden
+		lineageTag: 333db882-b09a-49c0-a324-b54751b05cde
+		summarizeBy: none
+		sourceColumn: IL
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order'
+		dataType: string
+		isHidden
+		lineageTag: 46629f8a-3097-43fd-8532-c4515e251ae5
+		summarizeBy: none
+		sourceColumn: Sort Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'IL Category'
+		dataType: string
+		isHidden
+		lineageTag: 5ddc27fa-ca0a-45a2-94c6-31b7889e5258
+		summarizeBy: none
+		sourceColumn: IL Category
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'IL Sort' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8vQxUNJRMgNiIEvXSClWByRmCOSbookZAfkmaGLGQL4xWMxY1xQqBlJjhCYGMssQIRYLAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [IL = _t, #"Sort Order" = _t, #"IL Category" = _t])
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

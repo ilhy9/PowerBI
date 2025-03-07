@@ -1,0 +1,21 @@
+model Model
+	culture: zh-CN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: zh-CN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Processing 1","Processing 2","Processing 3"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.132.1053.0 (24.08)
+
+ref table 'Processing 1'
+ref table DateTableTemplate_6dd44e5e-0ef2-4872-ace4-20916cde277a
+ref table 'Processing 2'
+ref table 'Processing 3'
+
+ref cultureInfo zh-CN
+

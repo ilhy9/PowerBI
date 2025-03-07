@@ -1,0 +1,562 @@
+table Measure
+	lineageTag: 03dab56e-40e2-464c-b7a3-c7f949059ed3
+
+	measure 'Total Actual Saving' = ```
+			
+			var curReport = MAX('Weekly Calendar'[Report])
+			var res = 
+			 CALCULATE(SUM('HistoryOverview'[Value]), KEEPFILTERS( HistoryOverview[History_Overview.Report] =curReport))
+			 RETURN
+			    res
+			```
+		formatString: 0.0
+		lineageTag: 367b131c-4b2a-4a27-be41-572413a3fb37
+
+	measure '#A&D Initative' = ```
+			
+			var curReport = MAX('Weekly Calendar'[Report])
+			var res = 
+			 CALCULATE(
+			    DISTINCTCOUNT('HistoryOverview'[History_Overview.ID_General]),
+			    'HistoryOverview'[History_Overview.O Strategic Initiative]="A&D",
+			    'HistoryOverview'[History_Overview.Report] = curReport
+			    )
+			RETURN
+			    res
+			```
+		formatString: 0
+		lineageTag: 4bcea73c-b08b-42ce-8af1-048acd922ecd
+
+	measure '#NAD Initative' =
+			
+			CALCULATE(
+			        DISTINCTCOUNT('HistoryOverview'[History_Overview.ID_General]),
+			        'HistoryOverview'[History_Overview.O Strategic Initiative]="N.A."
+			    )
+		formatString: 0
+		lineageTag: d70750d3-dd95-4762-af67-b8bffac35418
+
+	measure 'In Year Text' = FORMAT([In Year Net Saving],"##.0")
+		lineageTag: 9b2ea8c3-1300-4c52-a49f-41312a7b6181
+
+	measure 'InYear A&D' = CALCULATE([In Year Net Saving],'HistoryOverview'[History_Overview.O Strategic Initiative]="A&D")
+		formatString: 0.0
+		lineageTag: 2a20d384-d987-484f-ad4f-662b6eba747e
+
+	measure 'InYear NonA&D' = CALCULATE([In Year Net Saving],'HistoryOverview'[History_Overview.O Strategic Initiative]="N.A.")
+		lineageTag: 81836fa1-3afd-4815-81ea-9928960a0200
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'YTD Actual Saving' = ```
+			
+			 var curMonth = MONTH(MAX('Weekly Calendar'[Date]))
+			 var YTDActual = CALCULATE([Total Actual Saving], KEEPFILTERS( HistoryOverview[Month]<=curMonth))
+			 var res = IF(ISBLANK(YTDActual),0,YTDActual)
+			 RETURN
+			    res
+			```
+		formatString: 0.00
+		lineageTag: 6204cf68-e7db-4dd0-9e53-5f5f099e0b03
+
+	measure 'In Year Net Saving' = ```
+			
+			var curMonth = MAX('Weekly Calendar'[Report])
+			var t = ADDCOLUMNS(
+			            SUMMARIZE(HistoryOverview,'HistoryOverview'[History_Overview.ID_General],'HistoryOverview'[History_Overview.Value]),
+			    "#Report", CALCULATE(MAX('HistoryOverview'[History_Overview.Report]))
+			)
+			
+			var t2 =SUMX(FILTER(t,[#Report] = curMonth),[History_Overview.Value])
+			
+			RETURN
+			 t2
+			
+			```
+		formatString: 0.0
+		lineageTag: 57dfd22d-ef84-4eab-a4f4-3f3846fe384c
+
+	measure 'Future Plan Saving' = ```
+			
+			 var curMonth = MONTH(TODAY())
+			 var YTDActual = CALCULATE([Total Actual Saving], KEEPFILTERS( HistoryOverview[Month]>=curMonth))
+			 RETURN
+			    YTDActual
+			```
+		formatString: 0.00
+		lineageTag: 5656b43e-ada7-49d7-848f-6b2aabb6232c
+
+	measure Diff = [In Year Net Saving] - [TotalTarget]
+		lineageTag: 7ba526a0-883d-4e9c-8aff-4ddc9ca7201b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CF-Color = IF([Diff]>0, "#00af4d", "#bb2026")
+		lineageTag: e4ac27d0-e9f8-4c4a-8a60-69d386a52a54
+
+	measure CF-Diff =
+			
+			var formatdiff = FORMAT([Diff],"0.0")
+			var res  = IF([Diff]>=0,  "▲ "& formatdiff, "▼ " &formatdiff)
+			RETURN
+			    res
+		lineageTag: 7119d091-63fd-4caf-966e-851cdac29b9f
+
+	measure TotalTarget = IF(NOT(ISFILTERED('Strategic Intiative'[Type])), SUM('Target-Plant'[Target]),BLANK())
+		formatString: 0.0
+		lineageTag: d71b38cc-bfa3-47bd-bf20-5be3ee6e90d6
+
+	measure 'Status SVG' = ```
+			
+			VAR ProjectPlan = [SAT Plan]
+			VAR ProjectActual = [ProjectActual]
+			VAR adjustedActual = IF(ISBLANK([ProjectActual]), TODAY(), [ProjectActual])
+			VAR ProjectStatus = SELECTEDVALUE('DetailedProjects'[Status])
+			VAR fillColor = 
+			    SWITCH(
+			        ProjectStatus,
+			        "On Track", "#00bc52",  // Green
+			        "Delay", "#FB8998",     // Red
+			        "No SAT Plan", "#FFD700"  // Yellow
+			    )
+			VAR StrokeColor = 
+			    SWITCH(
+			        ProjectStatus,
+			        "On Track", "#008b3d",  // Dark Green
+			        "Delay", "#982F2F",     // Dark Red
+			        "No SAT Plan", "#FFCC00" // Dark Yellow
+			    )
+			VAR textColor = 
+			    SWITCH(
+			        ProjectStatus,
+			        "On Track", "White",  
+			        "Delay", "White",     
+			        "No SAT Plan", "Red"
+			    )
+			
+			VAR animationClass = 
+			    IF(ProjectStatus = "No SAT Plan", "blinkAnimation", "")
+			VAR img = 
+			    "data:image/svg+xml;utf8,
+			    <svg xmlns='http://www.w3.org/2000/svg' height='25' width='500'  >
+			        <style>
+			            @keyframes blinkAnimation {
+			                0%, 100% { opacity: 1; }
+			                30% { opacity: 0; }
+			            } 
+			            .blinkAnimation {
+			                animation: blinkAnimation 1.5s infinite;
+			            }
+			        </style>
+			        <rect x='6.5' y='1' width='75' height='20' rx='8' fill='" & fillColor & "' stroke='" & StrokeColor & "' />
+			        <text class='" & animationClass & "' x='44' y='12' font-family='Segoe UI' font-size='11' font-weight='700' fill='"&textColor&"' text-anchor='middle' dominant-baseline='middle'>
+			            " & ProjectStatus & "
+			        </text>
+			    </svg>"
+			var res = IF(NOT(ISBLANK(MAX('DetailedProjects'[Initiatives]))),img)
+			RETURN
+			    res
+			
+			```
+		lineageTag: fa73f832-29e2-4b37-9072-10efeb53f461
+		dataCategory: ImageUrl
+
+	measure 'SAT Plan' = EOMONTH(MAX('DetailedProjects'[Plan]),0)
+		formatString: yyyy-mm
+		lineageTag: 50f31f47-aa9e-450e-909f-107d98d700ea
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure ProjectActual = ```
+			DATEVALUE( MAX('DetailedProjects'[Actual]))
+			
+			
+			```
+		formatString: General Date
+		lineageTag: 6446db24-5b1f-423d-b7db-de6c7af806c0
+
+	measure 'ToolTip-OnTrack or Delay' =
+			
+			var AdjustedActual = IF(ISBLANK([ProjectActual]),TODAY(),[ProjectActual])
+			var prefix = IF(AdjustedActual>[SAT Plan], "Delay ","On Track ")
+			var gapDays = DATEDIFF(AdjustedActual,[SAT Plan],MONTH)
+			var suffix = IF(AdjustedActual>[SAT Plan]," Month(s)", " Month(s) Left")
+			var res = prefix & ABS(gapDays) & suffix
+			RETURN
+			    res
+		lineageTag: 609a17ff-1147-47fd-b2fe-a79e62199cc7
+
+	measure 'Projects Due This Month' =
+			
+			var curMonth = MONTH(TODAY())
+			var projects = COUNTROWS(FILTER('DetailedProjects', MONTH('DetailedProjects'[Plan]) = curMonth))
+			
+			 RETURN
+			    projects
+		formatString: 0
+		lineageTag: 5af29742-0ff0-4733-a7c1-178a018834f6
+
+	measure Version-CurrentVersion = FORMAT(TODAY(),"YYYY-MMM")
+		lineageTag: c37a39b4-b3aa-4a5e-a752-4c103378ca20
+
+	measure 'Projects Delay' =
+			
+			var AdjustedActual = IF(ISBLANK([ProjectActual]),TODAY(),[ProjectActual])
+			var projects = COUNTROWS(FILTER('DetailedProjects',[SAT Plan]<AdjustedActual))
+			
+			 RETURN
+			    projects
+		formatString: 0
+		lineageTag: b7d5517e-b2c3-48dd-8f5c-efe80dfaaafb
+
+	measure 'Project Due Next Month' =
+			
+			var _NextMonth = MONTH(TODAY())+1
+			var projects = COUNTROWS(FILTER('DetailedProjects', MONTH('DetailedProjects'[Plan]) = _NextMonth))
+			
+			 RETURN
+			    projects
+		formatString: 0
+		lineageTag: 338c59a2-36a1-44e2-b183-f5a05997ccfe
+
+	measure 'Total Projects' = COUNTROWS('DetailedProjects')
+		formatString: 0
+		lineageTag: 7487da64-aa62-4b01-bb9c-b8170798e278
+
+	measure 'In Year JIA' = CALCULATE([In Year Net Saving], HistoryOverview[History_Overview.ELT Level 5]="PROCESSING JIA")
+		formatString: #,##0.0
+		lineageTag: 66891b40-08a5-415a-8bbe-057453f80a11
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'In Year KLA' = CALCULATE([In Year Net Saving], HistoryOverview[History_Overview.ELT Level 5]="PROCESSING KLA")
+		formatString: #,##0.0
+		lineageTag: cc2f746e-b802-4500-bc9c-613701fa8a60
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'In Year NYI' = CALCULATE([In Year Net Saving], HistoryOverview[History_Overview.ELT Level 5]="PROCESSING NYI")
+		formatString: #,##0.0
+		lineageTag: d344399e-cf41-4a25-b5a0-47d3521902d0
+
+	measure 'In Year LOM' = CALCULATE([In Year Net Saving], HistoryOverview[History_Overview.ELT Level 5]="PROCESSING LOM")
+		formatString: #,##0.0
+		lineageTag: 0f706b26-002d-4261-ac31-357243179a05
+
+	measure 'Target JIA' = ```
+			CALCULATE([TotalTarget], 'Target-Plant'[Plant] = "Processing JIA")
+				
+			```
+		formatString: 0
+		lineageTag: 545c0c56-958e-4e52-8946-1e368e2cc7c5
+
+	measure 'Target LOM' = ```
+			CALCULATE([TotalTarget], 'Target-Plant'[Plant] = "Processing LOM")
+				
+			```
+		formatString: 0
+		lineageTag: 95ccfa61-26de-4334-b168-324b5f4155b8
+
+	measure 'Target KLA' = ```
+			CALCULATE([TotalTarget], 'Target-Plant'[Plant] = "Processing KLA")
+				
+			```
+		formatString: 0
+		lineageTag: cd28b723-d785-440b-a7fa-00e0a4578fca
+
+	measure 'Target NYI' = CALCULATE([TotalTarget], 'Target-Plant'[Plant] = "Processing NYI")
+		formatString: 0
+		lineageTag: 05c7b481-61bc-4694-be19-26e878c9cf77
+
+	measure 'In Year IL3-5' = ```
+			
+			 var v = CALCULATE([In Year Net Saving],'HistoryOverview'[History_Overview.IL] in {"IL3","IL4","IL5"})
+			 var res = IF( NOT(ISBLANK(v)),v,0)
+			 RETURN
+			    res
+			```
+		formatString: 0.0
+		lineageTag: 76597de5-9ef0-4d69-a5c7-76e7218f7ef9
+
+	measure 'In Year IL3-5 Prev Cycle' = ```
+			var currentReport = MAX('Weekly Calendar'[Report])
+			var previousReport = CALCULATE([In Year IL3-5],ALL('Weekly Calendar'[Date]), 'Weekly Calendar'[Report]<currentReport, 'Weekly Calendar'[Monthly review]="Yes" )
+			RETURN
+			    previousReport
+				
+			 
+			```
+		formatString: 0.0
+		lineageTag: 181ee257-0b8f-4b3e-ad97-830847a036a6
+
+	measure 'In Year IL0-2' = ```
+			
+			 var VInYear = CALCULATE([In Year Net Saving],'HistoryOverview'[History_Overview.IL] in {"IL0","IL1","IL2"})
+			 var res = IF(ISBLANK(VInYear),0,VInYear)
+			 RETURN
+			    res
+			```
+		lineageTag: ce01fc9a-dfe5-4784-b218-77bab69d7042
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'In Year IL0-2 Prev Cycle' = ```
+			var currentReport = MAX('Weekly Calendar'[Report])
+			var previousReport = CALCULATE([In Year IL0-2],ALL('Weekly Calendar'[Date]), 'Weekly Calendar'[Report]<currentReport, 'Weekly Calendar'[Monthly review]="Yes" )
+			RETURN
+			    previousReport
+				
+			 
+			```
+		formatString: 0.0
+		lineageTag: ac57cdae-974a-45be-9059-937e36ff187e
+
+	measure '%MoM IL3-5' = DIVIDE( [In Year IL3-5]-[In Year IL3-5 Prev Cycle] ,[In Year IL3-5 Prev Cycle])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 8bfea892-bb22-4bf6-a60f-a65c455ff36c
+
+	measure '%MoM IL0-2' = DIVIDE( [In Year IL0-2]-[In Year IL0-2 Prev Cycle] ,[In Year IL0-2 Prev Cycle])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 6242786b-e168-4561-bb67-660143877441
+
+	measure 'Diff JIA' = [In Year JIA]-[Target JIA]
+		formatString: 0.0
+		lineageTag: a307e4af-69c4-49b3-b9d4-a4ffe6bd0f21
+
+	measure 'Diff LOM' = ```
+			[In Year LOM]-[Target LOM]
+			
+			```
+		formatString: 0.0
+		lineageTag: 5e4e84d1-9738-47a8-8d29-4b8772ac7f05
+
+	measure 'Diff KLA' = ```
+			[In Year KLA]-[Target KLA]
+			
+			```
+		formatString: 0.0
+		lineageTag: 1ff31e62-1547-47d6-8ff3-26344cfc9f81
+
+	measure 'Diff NYI' = ```
+			[In Year NYI]-[Target NYI]
+			
+			```
+		formatString: 0.0
+		lineageTag: 34554904-b817-414a-a6b6-870846fed2b0
+
+	measure 'CF-Diff JIA' = IF([Diff JIA]>0, "#00af4d","#bb2026")
+		lineageTag: 4d262c18-0a81-4687-9c86-b3d239fa4a72
+
+	measure 'CF-Diff KLA' = IF([Diff KLA]>0, "#00af4d","#bb2026")
+		lineageTag: 4cda8c96-5775-4b57-8c99-0569a770fcbb
+
+	measure 'CF-Diff LOM' = IF([Diff LOM]>0, "#00af4d","#bb2026")
+		lineageTag: b4f7f897-ec0a-4ebe-8547-c2bbc793fd87
+
+	measure 'CF-Diff NYI' = IF([Diff NYI]>0, "#00af4d","#bb2026")
+		lineageTag: b14e451d-7228-43a8-92cb-7bdb51845268
+
+	measure 'YTD Actual Saving- Prev' = ```
+			
+			 var curMonth = MONTH(MAX('Weekly Calendar'[Date]))
+			 var YTDActual = CALCULATE([Total Actual Saving], KEEPFILTERS( HistoryOverview[Month]<curMonth))
+			 RETURN
+			    YTDActual
+			```
+		lineageTag: bc6209d8-91be-4736-b7c1-3f05f7f5b652
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '%MoM ACTUAL' = DIVIDE([YTD Actual Saving]-[YTD Actual Saving- Prev],[YTD Actual Saving- Prev])
+		formatString: 0%;-0%;0%
+		lineageTag: 340f82e6-06b4-4b0e-a4d8-0e39fc838d6c
+
+	measure 'SAT Actual' =
+			
+			EOMONTH(MAX('DetailedProjects'[Actual]),0)
+		formatString: yyyy-mm
+		lineageTag: 96c5b928-c8f6-4dd5-8b7f-77ddd64f7744
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure CF-test = IF([Diff]>0,"RED","Green")
+		lineageTag: b6534634-e321-40f3-91de-8fbf0f9ff432
+
+	measure Timeline(Month) = ```
+			
+			VAR ActualDate = [SAT Actual]                          
+			VAR PlanDate = [SAT Plan]                              
+			VAR ActualMonth = [TimeLine_ActualMonth]
+			VAR PlanMonth = MONTH(PlanDate)                        
+			VAR CurrentMonth = MONTH(TODAY())                     
+			VAR MonthList = GENERATESERIES(1, 12, 1)         
+			var blankcircle = 
+			"data:image/svg+xml;utf8, <svg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<circle cx='6' cy='6' r='5.5' stroke='black'/>
+			</svg>"
+			var targetcircle = "data:image/svg+xml;utf8, <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
+			<circle cx='8' cy='8' r='6' fill='#BCBEC8' stroke='black' stroke-width='3'/>
+			</svg>"
+			
+			VAR ColorString = 
+			    CONCATENATEX(
+			        MonthList,
+			        blankcircle              
+			    )
+			
+			
+			
+			/*---
+			                NOT ISBLANK(ActualMonth),               // 情况1：实际日期存在
+			                IF(
+			                    ActualMonth <= PlanMonth,           // 子情况1：实际未超计划
+			                    IF(CurrentSegment <= ActualMonth, "🟢", blankcircle),  // 实际及之前为绿，之后为灰
+			                    IF(                                 // 子情况2：实际已超计划
+			                        CurrentSegment <= PlanMonth, "🟢",
+			                        IF(CurrentSegment <= ActualMonth, "🔴", blankcircle)  // 计划前绿，实际前红，之后灰
+			                    )
+			                ),
+			                IF(                                     // 情况2：实际日期为空
+			                    CurrentMonth <= PlanMonth,          // 子情况1：当前未超计划
+			                    IF(CurrentSegment <= CurrentMonth, "🟢",blankcircle),  // 当前及之前绿，之后灰
+			                    IF(                                 // 子情况2：当前已超计划
+			                        CurrentSegment <= PlanMonth, "🟢",
+			                        IF(CurrentSegment <= CurrentMonth, "🔴", blankcircle)  // 计划前绿，当前前红，之后灰
+			                    )
+			                )
+			            ),
+			    
+			        
+			    ""
+			---*/
+			
+			
+			var res = IF(ISBLANK(MAX(DetailedProjects[Site ])),BLANK(),ColorString)
+			RETURN res
+			```
+		lineageTag: c614663e-6313-4be9-8142-770b520e4a30
+		dataCategory: ImageUrl
+
+	measure PlaceHolder = 1
+		formatString: 0
+		lineageTag: 9925cec0-9302-4c91-aab9-9d3557b8ff39
+
+	measure 'Total Initiatives' = DISTINCTCOUNT('HistoryOverview'[History_Overview.ID_General])
+		formatString: 0
+		lineageTag: bf191b1a-213b-4cc9-838a-68f3cb9ae77c
+
+	measure TimeLine_ActualMonth = ```
+			 IF(ISBLANK([SAT Actual]), BLANK(), MONTH([SAT Actual]))
+			```
+		lineageTag: cf060d88-18b0-4cc4-a7eb-1cd831f51712
+
+	measure BarMax = MAX([In Year Net Saving],[TotalTarget])
+		formatString: 0.0
+		lineageTag: 9b3fb131-16b7-42fd-9873-cf48b8e761fb
+
+	measure BarMin = MIN([In Year Net Saving],[TotalTarget])
+		lineageTag: 72871666-25d3-49a1-9179-eb4c00758b01
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure BarDiff = [BarMax]-[BarMin]
+		lineageTag: 8c4502ff-967e-4dfe-9ce4-4c36af5078d7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _BarUnMet = IF([In Year Net Saving]<[TotalTarget], [BarMax]-[BarMin])
+		lineageTag: 4d6092d7-af23-45c3-95e0-5487da9f6369
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _BarMet = IF([In Year Net Saving]>=[TotalTarget], [BarMax]-[BarMin])
+		lineageTag: 01fe4623-4e87-4bff-9649-ecf7169d5529
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IL0-2 Label' = IF([In Year IL0-2]<>0,[In Year IL0-2])
+		formatString: 0
+		lineageTag: 502be3de-d697-442b-a5f4-ee87be3add9a
+
+	measure 'IL3-5 Label' = IF([In Year IL3-5]<>0,[In Year IL3-5])
+		lineageTag: 0d092165-38d0-41e7-859c-9cb9ef1f19c5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Actual YTD Label' = IF([YTD Actual Saving]<>0,([YTD Actual Saving]))
+		lineageTag: 401775fd-d581-4220-b142-fedec91f357e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Progress by Month' = ```
+			
+			VAR Width = 500  
+			VAR Height = 30  
+			VAR CircleRadius = 10  
+			VAR Spacing = 25 
+			
+			VAR TargetMonth = MONTH([SAT Plan])
+			VAR ActualMonth = COALESCE(MONTH([SAT Actual]),MONTH(TODAY()))
+			VAR Circles = 
+			    CONCATENATEX(
+			        GENERATESERIES(1,12),
+			        VAR curSeg = [Value]
+			        VAR isTargetMonth =  curSeg = TargetMonth
+			        VAR isActiveMonth =  curSeg = ActualMonth
+			        VAR CircleFill = SWITCH(TRUE(),
+			              //target 
+			            isTargetMonth && isActiveMonth, "#52a14e",
+			            isTargetMonth, "#E5E5E5", //grey
+			            isActiveMonth  && ActualMonth >= TargetMonth, "red",  //delay      
+			            isActiveMonth  && ActualMonth < TargetMonth, "#52a14e",  //on track 
+			            
+			            "none"
+			        )
+			       var CircleStroke = SWITCH( TRUE(),
+			                                isTargetMonth,"black", // target only
+			                                "lightgrey"  // others
+			                            )
+			
+			       VAR StrokeWidth = IF(isTargetMonth,3,1)
+			       var dasharray = IF(isTargetMonth,"none","10 4")
+			       var FillOpac = IF(isTargetMonth,"1","0.2")
+			        
+			       RETURN  
+			       
+			       "<circle cx='" & (curSeg*Spacing) & "' cy='15' r='" & CircleRadius & 
+			        "' fill='" & CircleFill &
+			        "' stroke='" & CircleStroke & 
+			        "' stroke-width='" & StrokeWidth & 
+			        "' stroke-dasharray='"&dasharray&"'/>"
+			        ,
+			        ""
+			    )
+			var  res = "data:image/svg+xml,
+			            <svg xmlns='http://www.w3.org/2000/svg' width='" & Width & "' height='" & Height & "' >
+			            " & Circles & "
+			            </svg>"
+			
+			RETURN  
+			 IF(NOT(ISBLANK(MAX('DetailedProjects'[Initiatives]))),res)
+			
+			```
+		lineageTag: 9626717b-f1bf-4082-9f93-6117d8ffb69a
+		dataCategory: ImageUrl
+
+	column Value
+		isHidden
+		lineageTag: fa2034d7-e55c-4c51-ada6-ee54f1e8af81
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = calculated
+		mode: import
+		source = ```
+				{""} 
+				```
+
+	annotation PBI_Id = cf15b988b2504068a00d62c3c756d5be
+

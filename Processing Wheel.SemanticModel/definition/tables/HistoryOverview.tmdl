@@ -1,0 +1,303 @@
+table HistoryOverview
+	lineageTag: 72e67ccd-f880-41dd-be9c-e8352f8aee7a
+
+	measure Measure = ISCROSSFILTERED(DetailedProjects)
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0a1348ab-500c-4764-8fe1-643cc2eea378
+
+	column 'History_Overview.Activity / Project Name'
+		dataType: string
+		lineageTag: 425861fe-8dab-4bd6-85dd-8bee5effcf58
+		summarizeBy: none
+		sourceColumn: History_Overview.Activity / Project Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Brief Prepared by'
+		dataType: string
+		lineageTag: aa775a23-e0ca-4444-9e5a-5f45cf309df0
+		summarizeBy: none
+		sourceColumn: History_Overview.Brief Prepared by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Category'
+		dataType: string
+		lineageTag: 4e0f13c0-ce1f-45ba-a8b9-04025a3b29cd
+		summarizeBy: none
+		sourceColumn: History_Overview.Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Digital Tech enabled'
+		dataType: string
+		lineageTag: b500ccbd-f512-4d73-b45e-66f7a8246fc8
+		summarizeBy: none
+		sourceColumn: History_Overview.Digital Tech enabled
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.ELT'
+		dataType: string
+		lineageTag: afa2eeaf-819b-4248-a9f2-2ccf70a69c42
+		summarizeBy: none
+		sourceColumn: History_Overview.ELT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.ELT details'
+		dataType: string
+		lineageTag: 211ee990-fa9a-478b-a425-35c338884d84
+		summarizeBy: none
+		sourceColumn: History_Overview.ELT details
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.ELT L3'
+		dataType: string
+		lineageTag: 9173c654-47d3-4031-a250-987bc1c2aeac
+		summarizeBy: none
+		sourceColumn: History_Overview.ELT L3
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.ELT Level 2'
+		dataType: string
+		lineageTag: fa9a100f-b266-480c-ab36-3dcd2182e4a9
+		summarizeBy: none
+		sourceColumn: History_Overview.ELT Level 2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.ELT Level 3'
+		dataType: string
+		lineageTag: 527e2beb-ca23-4fe2-96a3-d23f45fb371f
+		summarizeBy: none
+		sourceColumn: History_Overview.ELT Level 3
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.ELT Level 4'
+		dataType: string
+		lineageTag: 1e6734cc-3f9d-4267-92c8-d1c0afb2f48d
+		summarizeBy: none
+		sourceColumn: History_Overview.ELT Level 4
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.ELT Level 5'
+		dataType: string
+		lineageTag: f5a10b28-f2e5-4de9-887c-723765afb001
+		summarizeBy: none
+		sourceColumn: History_Overview.ELT Level 5
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.ELT_Details'
+		dataType: string
+		lineageTag: 249826a4-3e6e-4a4c-a906-e792fcfaf553
+		summarizeBy: none
+		sourceColumn: History_Overview.ELT_Details
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Finance Partner'
+		dataType: string
+		lineageTag: d1daf4a2-b2d2-45c0-bdb5-8b2b0799be8f
+		summarizeBy: none
+		sourceColumn: History_Overview.Finance Partner
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.ID_General'
+		dataType: string
+		lineageTag: 8944cdfb-2d78-430c-b4a7-d0ead725700b
+		summarizeBy: none
+		sourceColumn: History_Overview.ID_General
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.IL'
+		dataType: string
+		lineageTag: ec50d4f1-4c77-42fb-8685-b8b1c5da3733
+		summarizeBy: none
+		sourceColumn: History_Overview.IL
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.MPR line'
+		dataType: string
+		lineageTag: ea9cbd18-d76f-41b8-962a-78515bfd3ebf
+		summarizeBy: none
+		sourceColumn: History_Overview.MPR line
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.O Comments'
+		dataType: string
+		lineageTag: 1203106e-af19-40ef-805d-a105e91df75d
+		summarizeBy: none
+		sourceColumn: History_Overview.O Comments
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.O Strategic Initiative'
+		dataType: string
+		lineageTag: e542191b-4868-4eda-af80-bcd930af750e
+		summarizeBy: none
+		sourceColumn: History_Overview.O Strategic Initiative
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Operation Tracking'
+		dataType: string
+		lineageTag: 9876e9c1-3284-44c0-8d8b-32ddb5a54ff7
+		summarizeBy: none
+		sourceColumn: History_Overview.Operation Tracking
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Overall Status'
+		dataType: string
+		lineageTag: 7076a7eb-f906-4f84-b37e-e7e26d3cfa1c
+		summarizeBy: none
+		sourceColumn: History_Overview.Overall Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Platfrom'
+		dataType: string
+		lineageTag: c4d56abf-6bda-46e0-8c04-e19b77696067
+		summarizeBy: none
+		sourceColumn: History_Overview.Platfrom
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Report'
+		dataType: int64
+		formatString: 0
+		lineageTag: a75d033a-d6e6-433d-a470-c309b020fd2c
+		summarizeBy: none
+		sourceColumn: History_Overview.Report
+
+		changedProperty = IsHidden
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Savings Classification'
+		dataType: string
+		lineageTag: b8669f05-af49-41db-8ea8-98f445548c80
+		summarizeBy: none
+		sourceColumn: History_Overview.Savings Classification
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Sponsor'
+		dataType: string
+		lineageTag: d0c5a4da-114d-44bc-8da3-bd59bbbcca96
+		summarizeBy: none
+		sourceColumn: History_Overview.Sponsor
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Sub category'
+		dataType: string
+		lineageTag: edd8c3ac-b2e4-4491-b0b2-51e8872be3c6
+		summarizeBy: none
+		sourceColumn: History_Overview.Sub category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Summary of actions and mitigation plans'
+		dataType: string
+		lineageTag: 2ed76c71-9644-414b-975b-2f9f9d9a450e
+		summarizeBy: none
+		sourceColumn: History_Overview.Summary of actions and mitigation plans
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Technology'
+		dataType: string
+		lineageTag: 84c610a8-5206-42f2-8d08-c5fa992b2a33
+		summarizeBy: none
+		sourceColumn: History_Overview.Technology
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: 827474f8-666e-4910-97f7-f49251251c53
+		summarizeBy: sum
+		sourceColumn: History_Overview.Week
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'History_Overview.Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7865eea6-4eeb-4594-b4a5-1f39db71df89
+		summarizeBy: sum
+		sourceColumn: History_Overview.Year
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: e33d4f9a-3ea9-4834-af5d-378ff03b6947
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		lineageTag: 8e2b49c1-5320-4b17-bd5a-d5c14bf5a9ce
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'History_Overview.Value'
+		dataType: double
+		lineageTag: 335511a4-cde4-4bc9-b35b-00a6fe5bb023
+		summarizeBy: sum
+		sourceColumn: History_Overview.Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition HistoryOverview = m
+		mode: import
+		source =
+				let
+				    Source = AnalysisServices.Databases("powerbi://api.powerbi.com/v1.0/myorg/Partner%20for%20Productivity", [TypedMeasureColumns=true, Implementation="2.0"]),
+				    #"PRO Report - PfP v2" = Source{[Name="PRO Report - PfP v2"]}[Data],
+				    Model1 = #"PRO Report - PfP v2"{[Id="Model"]}[Data],
+				    Model2 = Model1{[Id="Model"]}[Data],
+				    #"Added Items" = Cube.Transform(Model2,
+				        {
+				            {Cube.AddAndExpandDimensionColumn, "[History_Overview]", {"[History_Overview].[1].[1]", "[History_Overview].[10].[10]", "[History_Overview].[11].[11]", "[History_Overview].[12].[12]", "[History_Overview].[2].[2]", "[History_Overview].[3].[3]", "[History_Overview].[4].[4]", "[History_Overview].[5].[5]", "[History_Overview].[6].[6]", "[History_Overview].[7].[7]", "[History_Overview].[8].[8]", "[History_Overview].[9].[9]", "[History_Overview].[Activity / Project Name].[Activity / Project Name]", "[History_Overview].[Brief Prepared by].[Brief Prepared by]", "[History_Overview].[Category].[Category]", "[History_Overview].[Digital Tech enabled].[Digital Tech enabled]", "[History_Overview].[ELT].[ELT]", "[History_Overview].[ELT details].[ELT details]", "[History_Overview].[ELT L3].[ELT L3]", "[History_Overview].[ELT Level 2].[ELT Level 2]", "[History_Overview].[ELT Level 3].[ELT Level 3]", "[History_Overview].[ELT Level 4].[ELT Level 4]", "[History_Overview].[ELT Level 5].[ELT Level 5]", "[History_Overview].[ELT_Details].[ELT_Details]", "[History_Overview].[Finance Partner].[Finance Partner]", "[History_Overview].[ID_General].[ID_General]", "[History_Overview].[IL].[IL]", "[History_Overview].[MPR line].[MPR line]", "[History_Overview].[O Comments].[O Comments]", "[History_Overview].[O Strategic Initiative].[O Strategic Initiative]", "[History_Overview].[Operation Tracking].[Operation Tracking]", "[History_Overview].[Overall Status].[Overall Status]", "[History_Overview].[Platfrom].[Platfrom]", "[History_Overview].[Report].[Report]", "[History_Overview].[Savings Classification].[Savings Classification]", "[History_Overview].[Sponsor].[Sponsor]", "[History_Overview].[Sub category].[Sub category]", "[History_Overview].[Summary of actions and mitigation plans].[Summary of actions and mitigation plans]", "[History_Overview].[Technology].[Technology]", "[History_Overview].[Value].[Value]", "[History_Overview].[Week].[Week]", "[History_Overview].[Year].[Year]"}, {"History_Overview.1", "History_Overview.10", "History_Overview.11", "History_Overview.12", "History_Overview.2", "History_Overview.3", "History_Overview.4", "History_Overview.5", "History_Overview.6", "History_Overview.7", "History_Overview.8", "History_Overview.9", "History_Overview.Activity / Project Name", "History_Overview.Brief Prepared by", "History_Overview.Category", "History_Overview.Digital Tech enabled", "History_Overview.ELT", "History_Overview.ELT details", "History_Overview.ELT L3", "History_Overview.ELT Level 2", "History_Overview.ELT Level 3", "History_Overview.ELT Level 4", "History_Overview.ELT Level 5", "History_Overview.ELT_Details", "History_Overview.Finance Partner", "History_Overview.ID_General", "History_Overview.IL", "History_Overview.MPR line", "History_Overview.O Comments", "History_Overview.O Strategic Initiative", "History_Overview.Operation Tracking", "History_Overview.Overall Status", "History_Overview.Platfrom", "History_Overview.Report", "History_Overview.Savings Classification", "History_Overview.Sponsor", "History_Overview.Sub category", "History_Overview.Summary of actions and mitigation plans", "History_Overview.Technology", "History_Overview.Value", "History_Overview.Week", "History_Overview.Year"}}
+				        }),
+				    #"Filtered Rows" = Table.SelectRows(#"Added Items", each [History_Overview.Year] = "2025"),
+				    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each (Cube.AttributeMemberId([History_Overview.ELT Level 5]) = "[History_Overview].[ELT Level 5].&[Processing JIA]" meta [DisplayName = "Processing JIA"] or Cube.AttributeMemberId([History_Overview.ELT Level 5]) = "[History_Overview].[ELT Level 5].&[Processing KLA]" meta [DisplayName = "Processing KLA"] or Cube.AttributeMemberId([History_Overview.ELT Level 5]) = "[History_Overview].[ELT Level 5].&[Processing LOM]" meta [DisplayName = "Processing LOM"] or Cube.AttributeMemberId([History_Overview.ELT Level 5]) = "[History_Overview].[ELT Level 5].&[Processing NYI]" meta [DisplayName = "Processing NYI"])),
+				    #"Unpivoted Columns" = Table.UnpivotOtherColumns(#"Filtered Rows1", {"History_Overview.Activity / Project Name", "History_Overview.Brief Prepared by", "History_Overview.Category", "History_Overview.Digital Tech enabled", "History_Overview.ELT", "History_Overview.ELT details", "History_Overview.ELT L3", "History_Overview.ELT Level 2", "History_Overview.ELT Level 3", "History_Overview.ELT Level 4", "History_Overview.ELT Level 5", "History_Overview.ELT_Details", "History_Overview.Finance Partner", "History_Overview.ID_General", "History_Overview.IL", "History_Overview.MPR line", "History_Overview.O Comments", "History_Overview.O Strategic Initiative", "History_Overview.Operation Tracking", "History_Overview.Overall Status", "History_Overview.Platfrom", "History_Overview.Report", "History_Overview.Savings Classification", "History_Overview.Sponsor", "History_Overview.Sub category", "History_Overview.Summary of actions and mitigation plans", "History_Overview.Technology", "History_Overview.Value", "History_Overview.Week", "History_Overview.Year"}, "Month", "Value"),
+				    #"Extracted Text After Delimiter" = Table.TransformColumns(#"Unpivoted Columns", {{"Month", each Text.AfterDelimiter(_, "."), type text}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Extracted Text After Delimiter",{{"Value", type number}, {"Month", Int64.Type}, {"History_Overview.Value", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
